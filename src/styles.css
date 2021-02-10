@@ -21,13 +21,15 @@ body {
 
 .header {
   width: 98%;
-  height: 15%;
+  height: 10%;
   margin: 2vh;
   padding: 1vh;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   font-size: 2vw;
+  align-items: center;
+  margin-top: 0.5vh;
 }
 
 .date {
@@ -42,12 +44,12 @@ body {
   display: flex;
   flex-direction: row;
   width: 100%;
-  height: 85%;
+  height: 90%;
   margin-bottom: 1vh;
 }
 .col1 {
   margin-left: 2vh;
-  width: 80%;
+  width: 75%;
   height: 100%;
   display: flex;
 }
@@ -57,7 +59,7 @@ body {
   flex-direction: column;
   margin-left: 1vh;
   margin-right: 2vh;
-  width: 20%;
+  width: 25%;
   height: 100%;
 }
 
@@ -86,7 +88,7 @@ body {
   margin-bottom: 1vh;
 }
 
-.create {
+.createToDo {
   width: 100%;
   height: 45%;
   display: flex;
@@ -104,10 +106,13 @@ body {
 }
 
 .icon {
-  font-size: 1.5vw;
-  background-color: black;
+  font-size: 1.2vw;
+  background-color: pink;
   border-radius: 50%;
-  padding: 0.5vh;
+  border: none;
+  /* padding: 1vh; */
+  height: 3vw;
+  width: 3vw;
   outline: none;
 }
 
@@ -126,7 +131,7 @@ body {
 }
 
 .grey {
-  color: grey;
+  color: darkgray;
 }
 
 .red {
@@ -138,7 +143,7 @@ body {
 }
 
 .blue {
-  color: lightblue;
+  color: cyan;
 }
 
 .pink {
@@ -200,6 +205,7 @@ body {
 }
 
 .addToDo {
+  border: 1px solid black;
   border-radius: 2vh;
   padding: 1vh;
   width: 90%;
@@ -232,6 +238,7 @@ body {
 }
 
 .selector {
+  border: 1px solid black;
   width: 100%;
   border-radius: 2vh;
   height: 4vh;
@@ -257,6 +264,7 @@ body {
   background-color: black;
   color: white;
   border-radius: 2vh;
+  border: none;
   height: 40%;
   width: 25%;
   margin: 1vh;
@@ -278,6 +286,7 @@ body {
   background-color: darkcyan;
   font-size: 1vw;
   border-radius: 1vw;
+  border: none;
   padding: 0.5vw;
   color: white;
   outline: 0;
@@ -285,8 +294,9 @@ body {
 
 .edit:hover,
 .delete:hover,
-.markComplete:hover,
-.select:hover {
+.completeButton:hover,
+.select:hover,
+.notSelect:hover {
   cursor: pointer;
   box-shadow: 0px 0px 2vh 0px white;
 }
@@ -315,7 +325,7 @@ body {
   font-size: 1.5vw;
 }
 
-.markComplete {
+.completeButton {
   font-size: 1vw;
   background-color: darkcyan;
   color: white;
@@ -325,11 +335,18 @@ body {
   outline: 0;
 }
 
-.select {
+.notSelect {
   height: 1.5vw;
   width: 1.5vw;
   border-radius: 50%;
   background-color: white;
+}
+
+.select {
+  height: 1.5vw;
+  width: 1.5vw;
+  border-radius: 50%;
+  background-color: red;
 }
 
 .alterSelection {
@@ -358,7 +375,7 @@ body {
 .hiddenTextCompleteSelection {
   visibility: hidden;
   position: absolute;
-  left: 58vw;
+  left: 52.5vw;
   background-color: gray;
   color: white;
   border-radius: 4vh;
@@ -369,7 +386,7 @@ body {
 .hiddenTextIncompleteSelection {
   visibility: hidden;
   position: absolute;
-  left: 57vw;
+  left: 51vw;
   background-color: gray;
   color: white;
   border-radius: 4vh;
@@ -380,7 +397,7 @@ body {
 .hiddenTextDeleteSelection {
   visibility: hidden;
   position: absolute;
-  left: 62.5vw;
+  left: 56.5vw;
   background-color: gray;
   color: white;
   border-radius: 4vh;
