@@ -96,6 +96,7 @@ const init = () => {
 };
 
 const toDoElement = init();
+
 export const createToDoElement = (element = toDoElement) => {
   const elementType = element.type;
   const elementClasses = element.classes;

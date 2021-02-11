@@ -8,14 +8,14 @@
 
   <body>
     <div class="header colorAndRadius">
-      <div class="date" id="date">Monday, February 8</div>
+      <div class="date" id="date"></div>
       <div class="heading">To-Do App</div>
     </div>
 
     <div class="mainBody">
       <div class="col1 colorAndRadius">
         <div class="toDoList" id="toDoList">
-          <div class="toDo">
+          <!-- <div class="toDo">
             <div class="buttons">
               <button class="edit">
                 <i class="far fa-edit"></i>
@@ -45,7 +45,7 @@
             </div>
 
             <div class="notSelect" id="select"></div>
-          </div>
+          </div> -->
         </div>
 
         <div class="alterSelection">
@@ -138,6 +138,39 @@
         </div>
       </div>
     </div>
+
+    <div class="myModal" id="myModal">
+      <div class="modalContent" id="modalContent">
+          <input
+            type="text"
+            id="updatedAddToDo"
+            class="addToDo"
+            placeholder="Add Your ToDo..."
+          />
+          <div class="urgency">
+            <p class="text">Urgency</p>
+            <select id="updatedUrgency" name="urgency" class="selector">
+              <option value="low">Low</option>
+              <option value="medium">Medium</option>
+              <option value="high">High</option>
+            </select>
+          </div>
+          <div class="category">
+            <p class="text">Category</p>
+            <select id="updatedCategory" name="category" class="selector">
+              <option value="personal">Personal</option>
+              <option value="academic">Academic</option>
+              <option value="social">Social</option>
+            </select>
+          </div>
+          <div class="modalButtons">
+            <button class="cancel" id="cancel">Cancel</button>
+            <button class="save" id="save">Save</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
     <script src="src/index.js"></script>
   </body>
