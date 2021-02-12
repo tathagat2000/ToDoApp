@@ -1,20 +1,13 @@
+// THIS IS MY LOCAL DATABASE
+
 let toDoId = 0;
 const database = [];
 const toDoInput = document.querySelector("#addToDo");
 const urgency = document.querySelector("#urgency");
 const category = document.querySelector("#category");
 
-export const addToDataBase = (element, currentTime) => {
-  database.push({
-    id: toDoId++,
-    text: toDoInput.value,
-    urgency: urgency.value,
-    category: category.value,
-    isSelected: false,
-    isCompleted: false,
-    time: currentTime,
-    element: element
-  });
+export const addToDataBase = (toDo) => {
+  database.push(toDo);
 };
 
 export const deleteFromDatabase = (id) => {
@@ -25,6 +18,12 @@ export const deleteFromDatabase = (id) => {
   database.splice(idx, 1);
 };
 
+const searchToDoBasedOnId = (id) => {
+  return database.find((toDo) => {
+    return toDo.id === id;
+  });
+};
+
 export const resetSelectionInDatabase = () => {
   database.forEach((toDo) => {
     toDo.isSelected = 0;
@@ -32,27 +31,21 @@ export const resetSelectionInDatabase = () => {
 };
 
 export const changeCompletedInDatabase = (id, val) => {
-  const toDo = database.filter((toDo) => {
-    return toDo.id === id;
-  });
+  const toDo = searchToDoBasedOnId(id);
 
-  toDo[0].isCompleted = val;
+  toDo.isCompleted = val;
 };
 
 export const toggleCompleteInDatabase = (id) => {
-  const toDo = database.filter((toDo) => {
-    return toDo.id === id;
-  });
+  const toDo = searchToDoBasedOnId(id);
 
-  toDo[0].isCompleted = toDo[0].isCompleted ^ 1;
+  toDo.isCompleted ^= 1;
 };
 
 export const toggleSelectInDatabase = (id) => {
-  const toDo = database.filter((toDo) => {
-    return toDo.id === id;
-  });
+  const toDo = searchToDoBasedOnId(id);
 
-  toDo[0].isSelected = toDo[0].isSelected ^ 1;
+  toDo.isSelected ^= 1;
 };
 
 export const getDatabase = () => {
@@ -60,35 +53,27 @@ export const getDatabase = () => {
 };
 
 export const getCurrentToDoTextFromDatabase = (id) => {
-  const toDo = database.filter((toDo) => {
-    return toDo.id === id;
-  });
+  const toDo = searchToDoBasedOnId(id);
 
-  return toDo[0].text;
+  return toDo.text;
 };
 
 export const getCurrentUrgencySelectionFromDatabase = (id) => {
-  const toDo = database.filter((toDo) => {
-    return toDo.id === id;
-  });
+  const toDo = searchToDoBasedOnId(id);
 
-  return toDo[0].urgency;
+  return toDo.urgency;
 };
 
 export const getCurrentCategorySelectionFromDatabase = (id) => {
-  const toDo = database.filter((toDo) => {
-    return toDo.id === id;
-  });
+  const toDo = searchToDoBasedOnId(id);
 
-  return toDo[0].category;
+  return toDo.category;
 };
 
 export const updateDatabase = (id, text, urgency, category) => {
-  const toDo = database.filter((toDo) => {
-    return toDo.id === id;
-  });
+  const toDo = searchToDoBasedOnId(id);
 
-  toDo[0].text = text;
-  toDo[0].urgency = urgency;
-  toDo[0].category = category;
+  toDo.text = text;
+  toDo.urgency = urgency;
+  toDo.category = category;
 };

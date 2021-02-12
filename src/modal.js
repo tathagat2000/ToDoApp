@@ -1,6 +1,7 @@
 import { getDatabase, updateDatabase } from "./database";
 import { updatePage } from "./updatePage";
-
+import { updateToDoInServerDatabase } from "/src/server.js";
+import { showSnackbar } from "/src/snackbar.js";
 const modal = document.querySelector("#myModal");
 const saveModal = document.querySelector("#save");
 const cancelModal = document.querySelector("#cancel");
@@ -41,20 +42,37 @@ export const showModal = (id, text, urgency, category) => {
 const closeModal = () => {
   modal.style.display = "none";
 };
+
+const getToDo = (id, database) => {
+  return database.find((toDo) => {
+    return toDo.id === id;
+  });
+};
+
 saveModal.addEventListener("click", (event) => {
   const updatedTextValue = updatedText.value;
   const updatedUrgencyValue = updatedUrgency.value;
   const updatedCategoryValue = updatedCategory.value;
-  updateDatabase(
-    currentToDoIdOpened,
-    updatedTextValue,
-    updatedUrgencyValue,
-    updatedCategoryValue
-  );
 
-  closeModal();
-
-  updatePage(getDatabase());
+  const toDo = getToDo(currentToDoIdOpened, getDatabase());
+  const { isSelected, element, ...serverCopy } = { ...toDo };
+  serverCopy.text = updatedTextValue;
+  serverCopy.urgency = updatedUrgencyValue;
+  serverCopy.category = updatedCategoryValue;
+  updateToDoInServerDatabase(currentToDoIdOpened, serverCopy)
+    .then(() => {
+      updateDatabase(
+        currentToDoIdOpened,
+        updatedTextValue,
+        updatedUrgencyValue,
+        updatedCategoryValue
+      );
+      closeModal();
+      updatePage(getDatabase());
+    })
+    .catch((err) => {
+      showSnackbar(err);
+    });
 });
 
 cancelModal.addEventListener("click", (event) => {

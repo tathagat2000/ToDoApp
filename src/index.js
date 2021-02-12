@@ -16,7 +16,15 @@ import {
   getCurrentCategorySelectionFromDatabase
 } from "/src/database.js";
 
+import {
+  createToDoInServerDatabase,
+  deleteToDoInServerDatabase,
+  bulkDeleteToDoInServerDatabase,
+  bulkChangeCompletedInServerDatabase,
+  updateToDoInServerDatabase
+} from "/src/server.js";
 import { showModal } from "/src/modal.js";
+import { showSnackbar } from "/src/snackbar.js";
 
 const createToDoBox = document.querySelector("#createToDo");
 const toDoInput = document.querySelector("#addToDo");
@@ -26,7 +34,7 @@ const deleteSelection = document.querySelector("#deleteSelection");
 const completeSelection = document.querySelector("#completeSelection");
 const incompleteSelection = document.querySelector("#incompleteSelection");
 const filterLogos = document.querySelector("#logos");
-
+let toDoId = 0;
 const getTime = () => {
   const date = new Date().toLocaleDateString();
   const time = new Date().toLocaleTimeString();
@@ -48,12 +56,28 @@ const getToDoId = (path) => {
   }
 };
 
+const getToDo = (id, database) => {
+  return database.find((toDo) => {
+    return toDo.id === id;
+  });
+};
+
 const checkPathIfAnyButtonsClicked = (path) => {
   const id = getToDoId(path);
   for (const element of path) {
     if (element.id === "completeButton") {
-      toggleCompleteInDatabase(id);
-      updatePage(getDatabase());
+      const toDo = getToDo(id, getDatabase());
+      const { isSelected, element, ...serverCopy } = { ...toDo };
+      serverCopy.isCompleted ^= 1;
+      updateToDoInServerDatabase(id, serverCopy)
+        .then(() => {
+          toggleCompleteInDatabase(id);
+          updatePage(getDatabase());
+        })
+        .catch((err) => {
+          showSnackbar(err);
+        });
+
       break;
     } else if (element.id === "select") {
       toggleSelectInDatabase(id);
@@ -66,8 +90,15 @@ const checkPathIfAnyButtonsClicked = (path) => {
       showModal(id, textValue, urgencyValue, categoryValue);
       break;
     } else if (element.id === "deleteButton") {
-      deleteFromDatabase(id);
-      updatePage(getDatabase());
+      deleteToDoInServerDatabase(id)
+        .then(() => {
+          deleteFromDatabase(id);
+          updatePage(getDatabase());
+        })
+        .catch((err) => {
+          showSnackbar(err);
+        });
+
       break;
     }
   }
@@ -79,15 +110,36 @@ const addEventListenersToToDo = (element) => {
   });
 };
 
+const createToDoObject = (newToDoElement) => {
+  return {
+    id: toDoId++,
+    text: toDoInput.value,
+    urgency: urgency.value,
+    category: category.value,
+    isSelected: false,
+    isCompleted: false,
+    time: getTime(),
+    element: newToDoElement
+  };
+};
+
 createToDoBox.addEventListener("keypress", (event) => {
   const key = event.keyCode || event.which || 0;
   if (key === 13 && toDoInput.value) {
-    const currentTime = getTime();
     const newToDoElement = createToDoElement();
-    addToDataBase(newToDoElement, currentTime);
-    updatePage(getDatabase());
-    resetValues();
-    addEventListenersToToDo(newToDoElement);
+    const toDoObject = createToDoObject(newToDoElement);
+    const { isSelected, element, ...serverCopy } = { ...toDoObject };
+
+    createToDoInServerDatabase(serverCopy)
+      .then(() => {
+        addToDataBase(toDoObject);
+        updatePage(getDatabase());
+        resetValues();
+        addEventListenersToToDo(newToDoElement);
+      })
+      .catch((err) => {
+        showSnackbar(err);
+      });
   }
 });
 
@@ -99,29 +151,52 @@ const getSelectedToDo = (database) => {
 
 deleteSelection.addEventListener("click", (event) => {
   const filteredDatabase = getSelectedToDo(getDatabase());
-  filteredDatabase.forEach((toDo) => {
-    deleteFromDatabase(toDo.id);
-  });
-  resetSelectionInDatabase();
-  updatePage(getDatabase());
+  const listOfToDoIdsToBeDeleted = filteredDatabase.map((toDo) => toDo.id);
+  bulkDeleteToDoInServerDatabase(listOfToDoIdsToBeDeleted)
+    .then(() => {
+      filteredDatabase.forEach((toDo) => {
+        deleteFromDatabase(toDo.id);
+      });
+      resetSelectionInDatabase();
+      updatePage(getDatabase());
+    })
+    .catch((err) => {
+      showSnackbar(err);
+    });
 });
 
 completeSelection.addEventListener("click", (event) => {
   const filteredDatabase = getSelectedToDo(getDatabase());
-  filteredDatabase.forEach((toDo) => {
-    changeCompletedInDatabase(toDo.id, 1);
-  });
-  resetSelectionInDatabase();
-  updatePage(getDatabase());
+  const listOfToDoIdsToBeChanged = filteredDatabase.map((toDo) => toDo.id);
+
+  bulkChangeCompletedInServerDatabase(listOfToDoIdsToBeChanged, 1)
+    .then(() => {
+      filteredDatabase.forEach((toDo) => {
+        changeCompletedInDatabase(toDo.id, 1);
+      });
+      resetSelectionInDatabase();
+      updatePage(getDatabase());
+    })
+    .catch((err) => {
+      showSnackbar(err);
+    });
 });
 
 incompleteSelection.addEventListener("click", (event) => {
   const filteredDatabase = getSelectedToDo(getDatabase());
-  filteredDatabase.forEach((toDo) => {
-    changeCompletedInDatabase(toDo.id, 0);
-  });
-  resetSelectionInDatabase();
-  updatePage(getDatabase());
+  const listOfToDoIdsToBeChanged = filteredDatabase.map((toDo) => toDo.id);
+
+  bulkChangeCompletedInServerDatabase(listOfToDoIdsToBeChanged, 0)
+    .then(() => {
+      filteredDatabase.forEach((toDo) => {
+        changeCompletedInDatabase(toDo.id, 0);
+      });
+      resetSelectionInDatabase();
+      updatePage(getDatabase());
+    })
+    .catch((err) => {
+      showSnackbar(err);
+    });
 });
 
 const changeLogoStyle = (element) => {
