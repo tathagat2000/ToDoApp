@@ -8,9 +8,9 @@ export const filters = {
 };
 
 export const filterDatabase = (database) => {
-  let urgencyFilter = filters.low | filters.medium | filters.high;
+  const urgencyFilter = filters.low | filters.medium | filters.high;
 
-  let categoryFilter = filters.personal | filters.academic | filters.social;
+  const categoryFilter = filters.personal | filters.academic | filters.social;
 
   if (urgencyFilter === 0 && categoryFilter === 0) {
     return database;

@@ -15,14 +15,18 @@ const init = () => {
     type: "button",
     classes: ["edit"],
     children: [editIcon],
-    id: "editButton"
+    properties: {
+      "data-button": "edit"
+    }
   };
 
   const deleteButton = {
     type: "button",
     classes: ["delete"],
     children: [deleteIcon],
-    id: "deleteButton"
+    properties: {
+      "data-button": "delete"
+    }
   };
 
   const buttons = {
@@ -35,28 +39,36 @@ const init = () => {
     type: "div",
     classes: ["toDoText"],
     children: [],
-    id: "toDoText"
+    properties: {
+      "data-type": "text"
+    }
   };
 
   const time = {
     type: "div",
     classes: ["time"],
     children: [],
-    id: "time"
+    properties: {
+      "data-type": "time"
+    }
   };
 
   const urgencyIcon = {
     type: "i",
     classes: [],
     children: [],
-    id: "urgencyIcon"
+    properties: {
+      "data-type": "urgencyIcon"
+    }
   };
 
   const categoryIcon = {
     type: "i",
     classes: [],
     children: [],
-    id: "categoryIcon"
+    properties: {
+      "data-type": "categoryIcon"
+    }
   };
 
   const symbols = {
@@ -69,8 +81,10 @@ const init = () => {
     type: "button",
     classes: ["completeButton"],
     children: [],
-    id: "completeButton",
-    value: "Mark Complete"
+    properties: {
+      innerHTML: "Mark Complete",
+      "data-button": "complete"
+    }
   };
 
   const complete = {
@@ -83,7 +97,9 @@ const init = () => {
     type: "div",
     classes: ["notSelect"],
     children: [],
-    id: "select"
+    properties: {
+      "data-button": "select"
+    }
   };
 
   const toDoElement = {
@@ -100,18 +116,13 @@ const toDoElement = init();
 export const createToDoElement = (element = toDoElement) => {
   const elementType = element.type;
   const elementClasses = element.classes;
-  const elementId = element.id;
-  const elementValue = element.value;
 
   const newElement = document.createElement(elementType);
   newElement.classList.add(...elementClasses);
 
-  if (elementId) {
-    newElement.id = elementId;
-  }
-
-  if (elementValue) {
-    newElement.innerHTML = elementValue;
+  for (const property in element.properties) {
+    const value = element.properties[property];
+    newElement.setAttribute(property, value);
   }
 
   element.children.forEach((childElement) => {

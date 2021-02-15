@@ -1,7 +1,8 @@
-import { getDatabase, updateDatabase } from "./database";
+import { getDatabase, updateToDatabase } from "./database";
 import { updatePage } from "./updatePage";
 import { updateToDoInServerDatabase } from "/src/server.js";
 import { showSnackbar } from "/src/snackbar.js";
+import { addToHistory } from "/src/history.js";
 const modal = document.querySelector("#myModal");
 const saveModal = document.querySelector("#save");
 const cancelModal = document.querySelector("#cancel");
@@ -43,32 +44,39 @@ const closeModal = () => {
   modal.style.display = "none";
 };
 
-const getToDo = (id, database) => {
-  return database.find((toDo) => {
-    return toDo.id === id;
-  });
+const getToDo = (id, database) => database.find((toDo) => toDo.id === id);
+
+const createEvent = (type, id) => {
+  return {
+    operationType: type,
+    toDoObjectBefore: { ...getToDo(id, getDatabase()) }
+  };
 };
 
 saveModal.addEventListener("click", (event) => {
   const updatedTextValue = updatedText.value;
   const updatedUrgencyValue = updatedUrgency.value;
   const updatedCategoryValue = updatedCategory.value;
-
+  const updateEvent = createEvent("update", currentToDoIdOpened);
   const toDo = getToDo(currentToDoIdOpened, getDatabase());
   const { isSelected, element, ...serverCopy } = { ...toDo };
+  const { ...localCopy } = { ...toDo };
+
   serverCopy.text = updatedTextValue;
   serverCopy.urgency = updatedUrgencyValue;
   serverCopy.category = updatedCategoryValue;
+
+  localCopy.text = updatedTextValue;
+  localCopy.urgency = updatedUrgencyValue;
+  localCopy.category = updatedCategoryValue;
+
+  updateEvent.toDoObjectAfter = { ...localCopy };
   updateToDoInServerDatabase(currentToDoIdOpened, serverCopy)
     .then(() => {
-      updateDatabase(
-        currentToDoIdOpened,
-        updatedTextValue,
-        updatedUrgencyValue,
-        updatedCategoryValue
-      );
+      updateToDatabase(localCopy);
       closeModal();
       updatePage(getDatabase());
+      addToHistory(updateEvent);
     })
     .catch((err) => {
       showSnackbar(err);

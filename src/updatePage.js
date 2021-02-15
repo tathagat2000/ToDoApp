@@ -5,45 +5,49 @@ import { filterDatabase } from "/src/filter.js";
 const toDoList = document.querySelector("#toDoList");
 
 const setToDoText = (element, textValue) => {
-  element.querySelector("#toDoText").innerHTML = textValue;
+  element.querySelector("[data-type='text']").innerHTML = textValue;
 };
 
 const setToDoUrgency = (element, urgencyValue) => {
-  element.querySelector("#urgencyIcon").className = "";
+  element.querySelector("[data-type='urgencyIcon']").className = "";
   element
-    .querySelector("#urgencyIcon")
+    .querySelector("[data-type='urgencyIcon']")
     .classList.add(...iconClasses[urgencyValue]);
 };
 
 const setToDoCategory = (element, categoryValue) => {
-  element.querySelector("#categoryIcon").className = "";
+  element.querySelector("[data-type='categoryIcon']").className = "";
 
   element
-    .querySelector("#categoryIcon")
+    .querySelector("[data-type='categoryIcon']")
     .classList.add(...iconClasses[categoryValue]);
 };
 
 const setToDoTime = (element, time) => {
-  element.querySelector("#time").innerHTML = time;
+  element.querySelector("[data-type='time']").innerHTML = time;
 };
 
 const setIsCompleted = (element, completed) => {
   if (completed) {
     element.style.opacity = 0.5;
-    element.querySelector("#completeButton").innerHTML = "Completed. Undo?";
+    element.querySelector("[data-button='complete']").innerHTML =
+      "Completed. Undo?";
   } else {
     element.style.opacity = 1;
-    element.querySelector("#completeButton").innerHTML = "Mark Complete";
+    element.querySelector("[data-button='complete']").innerHTML =
+      "Mark Complete";
   }
 };
 
 const setIsSelected = (element, selected) => {
   if (selected) {
     element.style.boxShadow = "0px 0px 2vh 1vh grey";
-    element.querySelector("#select").style.backgroundColor = "red";
+    element.querySelector("[data-button='select']").style.backgroundColor =
+      "red";
   } else {
     element.style.boxShadow = "";
-    element.querySelector("#select").style.backgroundColor = "white";
+    element.querySelector("[data-button='select']").style.backgroundColor =
+      "white";
   }
 };
 
@@ -53,6 +57,7 @@ const setToDoId = (element, id) => {
 
 export const updatePage = (database) => {
   toDoList.innerHTML = "";
+  database.sort((toDo1, toDo2) => toDo1.id - toDo2.id);
   const filteredDatabase = filterDatabase(database);
   filteredDatabase.forEach((toDo) => {
     setToDoText(toDo.element, toDo.text);

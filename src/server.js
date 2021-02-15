@@ -1,7 +1,7 @@
 // THIS IS MY SERVER SIDE DATABASE
 
 let serverDatabase = [];
-const serverFailProbability = 0.3;
+const serverFailProbability = 0;
 
 const isServerWorking = () => {
   const current = Math.random();
