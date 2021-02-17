@@ -3,7 +3,8 @@
   <head>
     <title>To Do App</title>
     <meta charset="UTF-8" />
-    <link rel="stylesheet" href="/src/styles.css" />
+    <link rel="stylesheet" href="/src/styles.css" >
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   </head>
 
   <body>
@@ -21,7 +22,7 @@
                 <i class="far fa-edit"></i>
               </button>
               <button class="delete">
-                <i class="fas fa-trash-alt"></i>
+                <i class="fa fa-trash"></i>
               </button>
             </div>
 
@@ -34,8 +35,8 @@
             </div>
 
             <div class="symbols">
-              <i id="urgencySymbol" class="red fas fa-exclamation-triangle"></i>
-              <i id="categorySymbol" class="grey fas fa-book-open"></i>
+              <i id="urgencySymbol" class="red fa fa-exclamation-triangle"></i>
+              <i id="categorySymbol" class="grey fa fa-book"></i>
             </div>
 
             <div class="complete">
@@ -55,7 +56,7 @@
             </div>
 
             <button class="round" id="completeSelection">
-              <i class="fas fa-check-circle"></i>
+              <i class="fa fa-check-circle"></i>
             </button>
           </div>
 
@@ -65,14 +66,14 @@
             >
 
             <button class="round" id="incompleteSelection">
-              <i class="far fa-square"></i>
+              <i class="fa fa-square"></i>
             </button>
           </div>
 
           <div class="deleteSelection">
             <span class="hiddenTextDeleteSelection">Delete Selection</span>
             <button class="round" id="deleteSelection">
-              <i class="fas fa-trash-alt"></i>
+              <i class="fa fa-trash"></i>
             </button>
           </div>
         </div>
@@ -82,22 +83,22 @@
         <div class="filter colorAndRadius">
           <div class="logos" id="logos">
             <button class="icon" id="low">
-              <i class="grey fas fa-exclamation-triangle"></i>
+              <i class="grey fa fa-exclamation-triangle"></i>
             </button>
             <button class="icon" id="medium">
-              <i class="orange fas fa-exclamation-triangle"></i>
+              <i class="orange fa fa-exclamation-triangle"></i>
             </button>
             <button class="icon" id="high">
-              <i class="red fas fa-exclamation-triangle"></i>
+              <i class="red fa fa-exclamation-triangle"></i>
             </button>
             <button class="icon" id="personal">
-              <i class="blue fas fa-user"></i>
+              <i class="blue fa fa-user"></i>
             </button>
             <button class="icon" id="academic">
-              <i class="grey fas fa-book-open"></i>
+              <i class="grey fa fa-book"></i>
             </button>
             <button class="icon" id="social">
-              <i class="pink fas fa-users"></i>
+              <i class="pink fa fa-users"></i>
             </button>
           </div>
           <p class="filterText">Filter ToDos</p>
@@ -172,7 +173,7 @@
     </div>
     <div id="snackbar" class="snackbar">I am here</div>
 
-    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <!-- <script src="https://kit.fontawesome.com/a076d05399.js"></script> -->
     <script type="module" src="src/index.js"></script>
   </body>
 </html>

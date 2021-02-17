@@ -3,13 +3,13 @@ import { dataConstants } from "/src/constants.js";
 const init = () => {
   const editIcon = {
     type: "i",
-    classes: ["far", "fa-edit"],
+    classes: ["fa", "fa-edit"],
     children: []
   };
 
   const deleteIcon = {
     type: "i",
-    classes: ["fas", "fa-trash-alt"],
+    classes: ["fa", "fa-trash"],
     children: []
   };
 
@@ -135,10 +135,10 @@ export const createToDoElement = (element = toDoElement) => {
 };
 
 export const iconClasses = {
-  low: ["grey", "fas", "fa-exclamation-triangle"],
-  medium: ["orange", "fas", "fa-exclamation-triangle"],
-  high: ["red", "fas", "fa-exclamation-triangle"],
-  personal: ["blue", "fas", "fa-user"],
-  academic: ["grey", "fas", "fa-book-open"],
-  social: ["pink", "fas", "fa-users"]
+  low: ["grey", "fa", "fa-exclamation-triangle"],
+  medium: ["orange", "fa", "fa-exclamation-triangle"],
+  high: ["red", "fa", "fa-exclamation-triangle"],
+  personal: ["blue", "fa", "fa-user"],
+  academic: ["grey", "fa", "fa-book"],
+  social: ["pink", "fa", "fa-users"]
 };
