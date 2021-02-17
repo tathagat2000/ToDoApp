@@ -1,3 +1,5 @@
+import { dataConstants } from "/src/constants.js";
+
 const init = () => {
   const editIcon = {
     type: "i",
@@ -16,7 +18,7 @@ const init = () => {
     classes: ["edit"],
     children: [editIcon],
     properties: {
-      "data-button": "edit"
+      "data-button": dataConstants.EDITBUTTON
     }
   };
 
@@ -25,7 +27,7 @@ const init = () => {
     classes: ["delete"],
     children: [deleteIcon],
     properties: {
-      "data-button": "delete"
+      "data-button": dataConstants.DELETEBUTTON
     }
   };
 
@@ -40,7 +42,7 @@ const init = () => {
     classes: ["toDoText"],
     children: [],
     properties: {
-      "data-type": "text"
+      "data-type": dataConstants.TEXT
     }
   };
 
@@ -49,7 +51,7 @@ const init = () => {
     classes: ["time"],
     children: [],
     properties: {
-      "data-type": "time"
+      "data-type": dataConstants.TIME
     }
   };
 
@@ -58,7 +60,7 @@ const init = () => {
     classes: [],
     children: [],
     properties: {
-      "data-type": "urgencyIcon"
+      "data-type": dataConstants.URGENCYICON
     }
   };
 
@@ -67,7 +69,7 @@ const init = () => {
     classes: [],
     children: [],
     properties: {
-      "data-type": "categoryIcon"
+      "data-type": dataConstants.CATEGORYICON
     }
   };
 
@@ -83,7 +85,7 @@ const init = () => {
     children: [],
     properties: {
       innerHTML: "Mark Complete",
-      "data-button": "complete"
+      "data-button": dataConstants.COMPLETEBUTTON
     }
   };
 
@@ -98,7 +100,7 @@ const init = () => {
     classes: ["notSelect"],
     children: [],
     properties: {
-      "data-button": "select"
+      "data-button": dataConstants.SELECTBUTTON
     }
   };
 

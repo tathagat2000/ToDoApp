@@ -1,6 +1,7 @@
 // THIS IS MY LOCAL DATABASE
 
 const database = [];
+export const selectedList = [];
 
 export const addToDataBase = (toDo) => {
   database.push(toDo);
@@ -14,38 +15,19 @@ export const deleteFromDatabase = (id) => {
   database.splice(idx, 1);
 };
 
-const searchToDoBasedOnId = (id) => {
-  return database.find((toDo) => {
-    return toDo.id === id;
-  });
-};
+const getToDo = (id, database) => database.find((toDo) => toDo.id === id);
 
-export const resetSelectionInDatabase = () => {
-  database.forEach((toDo) => {
-    toDo.isSelected = 0;
-  });
+export const resetSelection = () => {
+  selectedList.splice(0);
 };
 
 export const getDatabase = () => {
   return database;
 };
 
-export const getCurrentToDoTextFromDatabase = (id) => {
-  const toDo = searchToDoBasedOnId(id);
-
-  return toDo.text;
-};
-
-export const getCurrentUrgencySelectionFromDatabase = (id) => {
-  const toDo = searchToDoBasedOnId(id);
-
-  return toDo.urgency;
-};
-
-export const getCurrentCategorySelectionFromDatabase = (id) => {
-  const toDo = searchToDoBasedOnId(id);
-
-  return toDo.category;
+export const getCurrentToDoData = (id, type) => {
+  const toDo = getToDo(id, getDatabase());
+  return toDo[type];
 };
 
 export const updateToDatabase = (toDoObject) => {

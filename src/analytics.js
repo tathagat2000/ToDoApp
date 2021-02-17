@@ -1,5 +1,4 @@
-const analyticsPercent = document.querySelector("#percent");
-const analyticsRatio = document.querySelector("#ratio");
+import { queriedElements } from "./constants";
 
 export const updateAnalytics = (database) => {
   const denominator = database.length;
@@ -7,9 +6,9 @@ export const updateAnalytics = (database) => {
     return toDo.isCompleted;
   }).length;
 
-  analyticsRatio.innerHTML = numerator + " / " + denominator;
+  queriedElements.analyticsRatio.innerHTML = numerator + " / " + denominator;
   let value;
   if (denominator === 0) value = 0;
   else value = Math.round((numerator * 100) / denominator);
-  analyticsPercent.innerHTML = value + " % ";
+  queriedElements.analyticsPercent.innerHTML = value + " % ";
 };

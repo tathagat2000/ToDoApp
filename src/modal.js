@@ -3,12 +3,7 @@ import { updatePage } from "./updatePage";
 import { updateToDoInServerDatabase } from "/src/server.js";
 import { showSnackbar } from "/src/snackbar.js";
 import { addToHistory } from "/src/history.js";
-const modal = document.querySelector("#myModal");
-const saveModal = document.querySelector("#save");
-const cancelModal = document.querySelector("#cancel");
-const updatedText = document.querySelector("#updatedAddToDo");
-const updatedUrgency = document.querySelector("#updatedUrgency");
-const updatedCategory = document.querySelector("#updatedCategory");
+import { queriedElements } from "/src/constants.js";
 
 let currentToDoIdOpened;
 
@@ -34,14 +29,14 @@ const indexOfUrgency = (urgency) => {
 
 export const showModal = (id, text, urgency, category) => {
   currentToDoIdOpened = id;
-  updatedText.value = text;
-  updatedUrgency.selectedIndex = indexOfUrgency(urgency);
-  updatedCategory.selectedIndex = indexOfCategory(category);
-  modal.style.display = "flex";
+  queriedElements.updatedText.value = text;
+  queriedElements.updatedUrgency.selectedIndex = indexOfUrgency(urgency);
+  queriedElements.updatedCategory.selectedIndex = indexOfCategory(category);
+  queriedElements.modal.style.display = "flex";
 };
 
 const closeModal = () => {
-  modal.style.display = "none";
+  queriedElements.modal.style.display = "none";
 };
 
 const getToDo = (id, database) => database.find((toDo) => toDo.id === id);
@@ -53,14 +48,14 @@ const createEvent = (type, id) => {
   };
 };
 
-saveModal.addEventListener("click", (event) => {
-  const updatedTextValue = updatedText.value;
-  const updatedUrgencyValue = updatedUrgency.value;
-  const updatedCategoryValue = updatedCategory.value;
+queriedElements.saveModal.addEventListener("click", (event) => {
+  const updatedTextValue = queriedElements.updatedText.value;
+  const updatedUrgencyValue = queriedElements.updatedUrgency.value;
+  const updatedCategoryValue = queriedElements.updatedCategory.value;
   const updateEvent = createEvent("update", currentToDoIdOpened);
   const toDo = getToDo(currentToDoIdOpened, getDatabase());
-  const { isSelected, element, ...serverCopy } = { ...toDo };
-  const { ...localCopy } = { ...toDo };
+  const { element, ...serverCopy } = toDo;
+  const localCopy = { ...toDo };
 
   serverCopy.text = updatedTextValue;
   serverCopy.urgency = updatedUrgencyValue;
@@ -83,6 +78,6 @@ saveModal.addEventListener("click", (event) => {
     });
 });
 
-cancelModal.addEventListener("click", (event) => {
+queriedElements.cancelModal.addEventListener("click", (event) => {
   closeModal();
 });

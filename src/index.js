@@ -1,38 +1,30 @@
 import "/src/updateHeaderDate.js";
+import {
+  createToDoInServerDatabase,
+  deleteToDoInServerDatabase,
+  bulkDeleteToDoInServerDatabase,
+  bulkUpdateToDoInServerDatabase,
+  updateToDoInServerDatabase,
+  getServerDatabase
+} from "/src/server.js";
 import { createToDoElement } from "/src/toDoElement.js";
-import "/src/rough.js";
 import { updatePage } from "/src/updatePage.js";
 import { filters } from "/src/filter.js";
 import {
   addToDataBase,
   deleteFromDatabase,
-  resetSelectionInDatabase,
+  resetSelection,
   getDatabase,
-  getCurrentToDoTextFromDatabase,
-  getCurrentUrgencySelectionFromDatabase,
-  getCurrentCategorySelectionFromDatabase
+  getCurrentToDoData,
+  selectedList
 } from "/src/database.js";
 
-import {
-  createToDoInServerDatabase,
-  deleteToDoInServerDatabase,
-  bulkDeleteToDoInServerDatabase,
-  bulkChangeCompletedInServerDatabase,
-  updateToDoInServerDatabase
-} from "/src/server.js";
 import { showModal } from "/src/modal.js";
 import { showSnackbar } from "/src/snackbar.js";
 import { addToHistory } from "/src/history.js";
 import { updateToDatabase } from "./database";
+import { queriedElements, dataConstants } from "./constants";
 
-const createToDoBox = document.querySelector("#createToDo");
-const toDoInput = document.querySelector("#addToDo");
-const urgency = document.querySelector("#urgency");
-const category = document.querySelector("#category");
-const deleteSelection = document.querySelector("#deleteSelection");
-const completeSelection = document.querySelector("#completeSelection");
-const incompleteSelection = document.querySelector("#incompleteSelection");
-const filterLogos = document.querySelector("#logos");
 let toDoId = 0;
 
 const getTime = () => {
@@ -43,9 +35,9 @@ const getTime = () => {
 };
 
 const resetValues = () => {
-  toDoInput.value = "";
-  urgency.selectedIndex = 0;
-  category.selectedIndex = 0;
+  queriedElements.toDoInput.value = "";
+  queriedElements.urgency.selectedIndex = 0;
+  queriedElements.category.selectedIndex = 0;
 };
 
 const getToDoId = (path) => {
@@ -55,26 +47,15 @@ const getToDoId = (path) => {
     }
   }
 };
-// DOUBT 1
-//One Line Code
-// const getToDo = (id, database) => {
-//   return database.find((toDo) => {
-//     return toDo.id === id;
-//   });
-// };
 
 const getToDo = (id, database) => database.find((toDo) => toDo.id === id);
 
-//Use Switch Case
-//Make functions inside this
-// DOUBT 2
-
 const completeButtonClicked = (id) => {
   const toDo = getToDo(id, getDatabase());
-  const { isSelected, element, ...serverCopy } = { ...toDo };
-  const { ...localCopy } = { ...toDo };
-  serverCopy.isCompleted ^= 1;
-  localCopy.isCompleted ^= 1;
+  const { element, ...serverCopy } = toDo;
+  const localCopy = { ...toDo };
+  serverCopy.isCompleted = !serverCopy.isCompleted;
+  localCopy.isCompleted = !localCopy.isCompleted;
   updateToDoInServerDatabase(id, serverCopy)
     .then(() => {
       const event = createEvent("update", id);
@@ -89,20 +70,19 @@ const completeButtonClicked = (id) => {
 };
 
 const selectButtonClicked = (id) => {
-  const event = createEvent("update", id);
-  const toDo = getToDo(id, getDatabase());
-  const { ...localCopy } = { ...toDo };
-  localCopy.isSelected ^= 1;
-  updateToDatabase(localCopy);
-  event.toDoObjectAfter = { ...getToDo(id, getDatabase()) };
+  if (selectedList.includes(id)) {
+    selectedList.splice(selectedList.indexOf(id), 1);
+  } else {
+    selectedList.push(id);
+  }
+
   updatePage(getDatabase());
-  addToHistory(event);
 };
 
 const editButtonClicked = (id) => {
-  const textValue = getCurrentToDoTextFromDatabase(id);
-  const urgencyValue = getCurrentUrgencySelectionFromDatabase(id);
-  const categoryValue = getCurrentCategorySelectionFromDatabase(id);
+  const textValue = getCurrentToDoData(id, "text");
+  const urgencyValue = getCurrentToDoData(id, "urgency");
+  const categoryValue = getCurrentToDoData(id, "category");
   showModal(id, textValue, urgencyValue, categoryValue);
 };
 
@@ -128,21 +108,35 @@ const deleteButtonClicked = (id) => {
 
 const checkPathIfAnyButtonsClicked = (path) => {
   const id = getToDoId(path);
-  for (const element of path) {
-    const button = element.dataset?.button;
-    if (button === "complete") {
+  const allButtons = [
+    dataConstants.COMPLETEBUTTON,
+    dataConstants.SELECTBUTTON,
+    dataConstants.EDITBUTTON,
+    dataConstants.DELETEBUTTON
+  ];
+  const button = path.find((element) => {
+    return allButtons.includes(element.dataset?.button);
+  });
+
+  switch (button?.dataset?.button) {
+    case dataConstants.COMPLETEBUTTON:
       completeButtonClicked(id);
       break;
-    } else if (button === "select") {
+
+    case dataConstants.SELECTBUTTON:
       selectButtonClicked(id);
       break;
-    } else if (button === "edit") {
+
+    case dataConstants.EDITBUTTON:
       editButtonClicked(id);
       break;
-    } else if (button === "delete") {
+
+    case dataConstants.DELETEBUTTON:
       deleteButtonClicked(id);
       break;
-    }
+
+    default:
+      break;
   }
 };
 
@@ -155,19 +149,19 @@ const addEventListenersToToDo = (element) => {
 const createToDoObject = (newToDoElement) => {
   return {
     id: toDoId++,
-    text: toDoInput.value,
-    urgency: urgency.value,
-    category: category.value,
-    isSelected: false,
+    text: queriedElements.toDoInput.value,
+    urgency: queriedElements.urgency.value,
+    category: queriedElements.category.value,
     isCompleted: false,
     time: getTime(),
     element: newToDoElement
   };
 };
+
 const addToDo = () => {
   const newToDoElement = createToDoElement();
   const toDoObject = createToDoObject(newToDoElement);
-  const { isSelected, element, ...serverCopy } = { ...toDoObject };
+  const { element, ...serverCopy } = toDoObject;
 
   createToDoInServerDatabase(serverCopy)
     .then(() => {
@@ -179,67 +173,97 @@ const addToDo = () => {
       addToHistory(event);
     })
     .catch((err) => {
+      console.log(err);
       showSnackbar(err);
     });
 };
 
-createToDoBox.addEventListener("keypress", (event) => {
+queriedElements.createToDoBox.addEventListener("keypress", (event) => {
   const key = event.keyCode || event.which || 0;
-  if (key === 13 && toDoInput.value) {
+  if (key === 13 && queriedElements.toDoInput.value) {
     addToDo();
   }
 });
 
-const getSelectedToDo = (database) => {
-  return database.filter((toDo) => {
-    return toDo.isSelected;
-  });
-};
-
 const deleteInBulk = () => {
-  const filteredDatabase = getSelectedToDo(getDatabase());
-  const listOfToDoIdsToBeDeleted = filteredDatabase.map((toDo) => toDo.id);
+  const listOfToDoIdsToBeDeleted = selectedList;
+  const event = {
+    operationType: "bulkDelete"
+  };
+  const listOfToDoObjects = listOfToDoIdsToBeDeleted.map((id) => {
+    return { ...getToDo(id, getDatabase()) };
+  });
+  event.toDoObjectList = listOfToDoObjects;
   bulkDeleteToDoInServerDatabase(listOfToDoIdsToBeDeleted)
     .then(() => {
-      filteredDatabase.forEach((toDo) => {
-        deleteFromDatabase(toDo.id);
+      listOfToDoIdsToBeDeleted.forEach((id) => {
+        deleteFromDatabase(id);
       });
-      resetSelectionInDatabase();
+      resetSelection();
       updatePage(getDatabase());
+      addToHistory(event);
     })
     .catch((err) => {
       showSnackbar(err);
     });
 };
 
-deleteSelection.addEventListener("click", (event) => {
+queriedElements.deleteSelection.addEventListener("click", (event) => {
   deleteInBulk();
 });
 
-const markSelectionInBulk = (value) => {
-  const filteredDatabase = getSelectedToDo(getDatabase());
-  const listOfToDoIdsToBeChanged = filteredDatabase.map((toDo) => toDo.id);
+const createBulkUpdateEvent = (listOfToDosToBeChanged, value) => {
+  const event = {
+    operationType: "bulkUpdate"
+  };
 
-  bulkChangeCompletedInServerDatabase(listOfToDoIdsToBeChanged, value)
+  event.toDoObjectListBefore = listOfToDosToBeChanged.map((toDo) => {
+    return { ...toDo };
+  });
+
+  event.toDoObjectListAfter = listOfToDosToBeChanged.map((toDo) => {
+    const copy = { ...toDo };
+    copy.isCompleted = value;
+    return copy;
+  });
+
+  return event;
+};
+
+const markSelectionInBulk = (value) => {
+  const listOfToDosToBeChanged = selectedList.map((id) =>
+    getToDo(id, getDatabase())
+  );
+
+  const event = createBulkUpdateEvent(listOfToDosToBeChanged, value);
+
+  const serverCopyOfListOfToDos = listOfToDosToBeChanged.map((toDo) => {
+    const { element, ...serverCopy } = toDo;
+    serverCopy.isCompleted = value;
+    return serverCopy;
+  });
+
+  bulkUpdateToDoInServerDatabase(serverCopyOfListOfToDos)
     .then(() => {
-      filteredDatabase.forEach((toDo) => {
-        const { ...localCopy } = { ...toDo };
+      listOfToDosToBeChanged.forEach((toDo) => {
+        const localCopy = { ...toDo };
         localCopy.isCompleted = value;
         updateToDatabase(localCopy);
       });
-      resetSelectionInDatabase();
+      resetSelection();
       updatePage(getDatabase());
+      addToHistory(event);
     })
     .catch((err) => {
       showSnackbar(err);
     });
 };
 
-completeSelection.addEventListener("click", (event) => {
+queriedElements.completeSelection.addEventListener("click", (event) => {
   markSelectionInBulk(1);
 });
 
-incompleteSelection.addEventListener("click", (event) => {
+queriedElements.incompleteSelection.addEventListener("click", (event) => {
   markSelectionInBulk(0);
 });
 
@@ -251,15 +275,41 @@ const changeLogoStyle = (element) => {
   }
 };
 
-filterLogos.addEventListener("click", (event) => {
+queriedElements.filterLogos.addEventListener("click", (event) => {
   const element = event.path.find((element) => {
     return element.tagName === "BUTTON";
   });
 
   if (element) {
-    filters[element.id] ^= 1;
+    filters[element.id] = !filters[element.id];
     changeLogoStyle(element);
   }
 
   updatePage(getDatabase());
 });
+
+//This code runs whenever the page is loaded.
+//It copies the server database to local database
+
+const copyServerDatabaseToLocalDatabase = () => {
+  getServerDatabase()
+    .then((serverDatabase) => {
+      const localDatabase = serverDatabase.map((toDo) => {
+        const copy = { ...toDo };
+        copy.element = createToDoElement();
+        addEventListenersToToDo(copy.element);
+        return copy;
+      });
+
+      localDatabase.forEach((toDo) => {
+        addToDataBase(toDo);
+      });
+
+      updatePage(getDatabase());
+    })
+    .catch((err) => {
+      showSnackbar(err);
+    });
+};
+
+copyServerDatabaseToLocalDatabase();

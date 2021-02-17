@@ -1,8 +1,8 @@
-const headerDate = document.querySelector("#date");
+import { queriedElements } from "/src/constants.js";
 
 const updatePageDate = () => {
   const currentDate = new Date().toDateString();
-  headerDate.innerHTML = currentDate;
+  queriedElements.headerDate.innerHTML = currentDate;
 };
 
 updatePageDate();
