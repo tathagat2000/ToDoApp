@@ -20,24 +20,24 @@ body {
 }
 
 .header {
-  width: 98%;
+  width: 99%;
   height: 10%;
-  margin: 2vh;
-  padding: 1vh;
+  margin: 8px;
+  padding: 8px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  font-size: 2vw;
+  font-size: 30px;
   align-items: center;
-  margin-top: 0.5vh;
+  margin-top: 4px;
 }
 
 .date {
-  margin: 1vh;
+  margin: 8px;
 }
 
 .heading {
-  margin: 1vh;
+  margin: 8px;
 }
 
 .mainBody {
@@ -45,10 +45,10 @@ body {
   flex-direction: row;
   width: 100%;
   height: 90%;
-  margin-bottom: 1vh;
+  margin-bottom: 8px;
 }
 .col1 {
-  margin-left: 2vh;
+  margin-left: 8px;
   width: 75%;
   height: 100%;
   display: flex;
@@ -57,21 +57,21 @@ body {
 .col2 {
   display: flex;
   flex-direction: column;
-  margin-left: 1vh;
-  margin-right: 2vh;
+  margin-left: 8px;
+  margin-right: 8px;
   width: 25%;
   height: 100%;
 }
 
 .colorAndRadius {
   background-color: white;
-  border-radius: 2vh;
+  border-radius: 16px;
 }
 
 .filter {
   width: 100%;
   height: 15%;
-  margin-bottom: 1vh;
+  margin-bottom: 8px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -85,7 +85,7 @@ body {
   align-items: center;
   width: 100%;
   height: 40%;
-  margin-bottom: 1vh;
+  margin-bottom: 8px;
 }
 
 .createToDo {
@@ -98,35 +98,34 @@ body {
 
 .logos {
   width: 100%;
-  padding: 1vh;
+  padding: 8px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  margin-top: 1vh;
+  margin-top: 8px;
 }
 
 .icon {
-  font-size: 1.2vw;
+  font-size: 20px;
   background-color: pink;
   border-radius: 50%;
   border: none;
   /* padding: 1vh; */
-  height: 3vw;
-  width: 3vw;
+  height: 50px;
+  width: 50px;
   outline: none;
 }
 
 .icon:hover {
   cursor: pointer;
-  box-shadow: 0px 0px 2vh 0px black;
+  box-shadow: 0px 0px 16px 0px black;
 }
 .filterText {
   text-align: center;
   width: 100%;
-  /* font-family: "Times New Roman", Times, serif; */
   color: black;
-  font-size: 1.5vw;
-  margin-bottom: 1vh;
+  font-size: 25px;
+  margin-bottom: 8px;
   font-weight: 700;
 }
 
@@ -156,19 +155,19 @@ body {
   justify-content: center;
   align-items: center;
   border-radius: 50%;
-  width: 14vw;
-  height: 14vw;
+  width: 220px;
+  height: 220px;
   background-color: black;
-  border: 1vw solid white;
-  box-shadow: 0px 0px 2vh 0px gray;
+  border: 15px solid white;
+  box-shadow: 0px 0px 16px 0px gray;
 }
 
 .analyticsText {
   text-align: center;
   /* font-family: "Times New Roman", Times, serif; */
   color: black;
-  font-size: 1.5vw;
-  margin-bottom: 0.5vh;
+  font-size: 25px;
+  margin-bottom: 4px;
   font-weight: 700;
 }
 
@@ -176,7 +175,7 @@ body {
   text-align: center;
   /* font-family: "Times New Roman", Times, serif; */
   color: white;
-  font-size: 1vw;
+  font-size: 15px;
   font-weight: 500;
 }
 
@@ -184,7 +183,7 @@ body {
   text-align: center;
   /* font-family: "Times New Roman", Times, serif; */
   color: white;
-  font-size: 3vw;
+  font-size: 45px;
   font-weight: 500;
 }
 
@@ -196,23 +195,23 @@ body {
   color: white;
   width: 98%;
   height: 15%;
-  font-size: 1.5vw;
+  font-size: 22px;
   text-align: center;
   font-weight: 700;
-  border-top-left-radius: 2vh;
-  border-top-right-radius: 2vh;
-  margin: 0.5vh;
-  margin-bottom: 2vh;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+  margin: 4px;
+  margin-bottom: 16px;
 }
 
 .addToDo {
   border: 1px solid black;
-  border-radius: 2vh;
-  padding: 1vh;
+  border-radius: 16px;
+  padding: 8px;
   width: 90%;
   height: 15%;
-  margin: 0.5vh;
-  font-size: 1.3vw;
+  margin: 4px;
+  font-size: 20px;
   outline: 0;
 }
 
@@ -235,9 +234,9 @@ body {
 }
 
 .text {
-  padding: 1vh;
-  margin: 0.5vh;
-  font-size: 1.5vw;
+  padding: 8px;
+  margin: 4px;
+  font-size: 22px;
   font-weight: 700;
 }
 
@@ -247,11 +246,11 @@ body {
   align-items: center;
   border: 1px solid black;
   width: 100%;
-  border-radius: 2vh;
-  height: 5vh;
-  font-size: 1.2vw;
+  border-radius: 16px;
+  height: 40px;
+  font-size: 18px;
   outline: 0;
-  padding: 1vh;
+  padding: 8px;
 }
 
 .toDoList {
@@ -271,12 +270,12 @@ body {
   justify-content: space-between;
   background-color: black;
   color: white;
-  border-radius: 2vh;
+  border-radius: 16px;
   border: none;
   height: 40%;
   width: 25%;
-  margin: 1vh;
-  padding: 1vh;
+  margin: 8px;
+  padding: 8px;
 }
 
 .buttons {
@@ -285,17 +284,17 @@ body {
 }
 .time {
   text-align: center;
-  font-size: 1vw;
-  margin-bottom: 1vw;
+  font-size: 15px;
+  margin-bottom: 15px;
 }
 .edit,
 .delete {
   visibility: hidden;
   background-color: darkcyan;
-  font-size: 1vw;
-  border-radius: 1vw;
+  font-size: 15px;
+  border-radius: 15px;
   border: none;
-  padding: 0.5vw;
+  padding: 8px;
   color: white;
   outline: 0;
 }
@@ -306,7 +305,7 @@ body {
 .select:hover,
 .notSelect:hover {
   cursor: pointer;
-  box-shadow: 0px 0px 2vh 0px white;
+  box-shadow: 0px 0px 16px 0px white;
 }
 
 .toDo:hover .edit,
@@ -316,101 +315,102 @@ body {
 
 .toDoText {
   text-align: center;
-  font-size: 2vw;
-  margin-bottom: 1vw;
+  font-size: 30px;
+  margin-bottom: 15px;
 }
 
 .symbols {
   text-align: center;
   display: flex;
   justify-content: space-evenly;
-  font-size: 2.5vw;
-  margin-bottom: 1vw;
+  font-size: 38px;
+  margin-bottom: 15px;
 }
 
 .complete {
   text-align: center;
-  font-size: 1.5vw;
+  font-size: 18px;
 }
 
 .completeButton {
-  font-size: 1vw;
+  font-size: 15px;
   background-color: darkcyan;
   color: white;
   border: none;
-  border-radius: 2vw;
-  padding: 0.5vw;
+  border-radius: 30px;
+  padding: 8px;
   outline: 0;
 }
 
 .notSelect {
-  height: 1.5vw;
-  width: 1.5vw;
+  font-size: 15px;
+  height: 20px;
+  width: 20px;
   border-radius: 50%;
   background-color: white;
 }
 
 .select {
-  height: 1.5vw;
-  width: 1.5vw;
+  height: 20px;
+  width: 20px;
   border-radius: 50%;
   background-color: red;
 }
 
 .alterSelection {
-  margin: 1vw;
+  margin: 15px;
   display: flex;
   flex-direction: column;
 }
 
 .round {
-  height: 2.5vw;
-  width: 2.5vw;
+  height: 38px;
+  width: 38px;
   background-color: black;
   color: white;
   outline: none;
   border-radius: 50%;
-  padding: 1vh;
-  margin: 1vh;
-  font-size: 1vw;
+  padding: 8px;
+  margin: 8px;
+  font-size: 15px;
 }
 
 .round:hover {
   cursor: pointer;
-  box-shadow: 0px 0px 1vh 0px black;
+  box-shadow: 0px 0px 8px 0px black;
 }
 
 .hiddenTextCompleteSelection {
   visibility: hidden;
   position: absolute;
-  left: 52.5vw;
+  right: 480px;
   background-color: gray;
   color: white;
-  border-radius: 4vh;
-  padding: 1vw;
-  font-size: 1vw;
+  border-radius: 30px;
+  padding: 15px;
+  font-size: 15px;
 }
 
 .hiddenTextIncompleteSelection {
   visibility: hidden;
   position: absolute;
-  left: 51vw;
+  right: 480px;
   background-color: gray;
   color: white;
-  border-radius: 4vh;
-  padding: 1vw;
-  font-size: 1vw;
+  border-radius: 30px;
+  padding: 15px;
+  font-size: 15px;
 }
 
 .hiddenTextDeleteSelection {
   visibility: hidden;
   position: absolute;
-  left: 56.5vw;
+  right: 480px;
   background-color: gray;
   color: white;
-  border-radius: 4vh;
-  padding: 1vw;
-  font-size: 1vw;
+  border-radius: 30px;
+  padding: 15px;
+  font-size: 15px;
 }
 
 .completeSelection:hover .hiddenTextCompleteSelection {
@@ -427,7 +427,6 @@ body {
 
 .myModal {
   display: none;
-  /* display: flex; */
   justify-content: center;
   align-items: center;
   position: fixed;
@@ -441,33 +440,40 @@ body {
 }
 
 .modalContent {
-  padding: 2vh;
-  border-radius: 4vh;
+  padding: 16px;
+  border-radius: 30px;
   display: flex;
   flex-direction: column;
   background-color: rgb(209, 209, 209);
-  width: 25vw;
-  height: 29vw;
+  width: 25%;
+  height: 60%;
+  justify-content: center;
+  align-items: center;
+}
+
+.modalButtons {
+  width: 100%;
+  display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .cancel,
 .save {
-  height: 8vh;
-  width: 15vh;
-  font-size: 2vh;
-  padding: 2vh;
+  height: 80%;
+  width: 30%;
+  font-size: 16px;
+  padding: 16px;
   outline: none;
-  margin: 2vh;
+  margin: 16px;
   border: none;
-  border-radius: 10vh;
+  border-radius: 50px;
 }
 
 .cancel:hover,
 .save:hover {
   cursor: pointer;
-  box-shadow: 0px 0px 2vh 0px black;
+  box-shadow: 0px 0px 16px 0px black;
 }
 
 .snackbar {

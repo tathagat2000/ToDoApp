@@ -3,6 +3,16 @@
 const database = [];
 export const selectedList = [];
 
+export const findMaxId = () => {
+  let max = -1;
+
+  database.forEach((toDo) => {
+    max = Math.max(max, toDo.id);
+  });
+
+  return max;
+};
+
 export const addToDataBase = (toDo) => {
   database.push(toDo);
 };

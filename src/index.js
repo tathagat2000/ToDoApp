@@ -16,14 +16,19 @@ import {
   resetSelection,
   getDatabase,
   getCurrentToDoData,
-  selectedList
+  selectedList,
+  findMaxId
 } from "/src/database.js";
 
 import { showModal } from "/src/modal.js";
 import { showSnackbar } from "/src/snackbar.js";
 import { addToHistory } from "/src/history.js";
 import { updateToDatabase } from "./database";
-import { queriedElements, dataConstants } from "./constants";
+import {
+  queriedElements,
+  dataConstants,
+  mapFilterIdToValue
+} from "./constants";
 
 let toDoId = 0;
 
@@ -268,10 +273,10 @@ queriedElements.incompleteSelection.addEventListener("click", (event) => {
 });
 
 const changeLogoStyle = (element) => {
-  if (filters[element.id]) {
-    element.style.fontSize = "2vw";
+  if (filters[mapFilterIdToValue[element.id]]) {
+    element.style.fontSize = "35px";
   } else {
-    element.style.fontSize = "1.2vw";
+    element.style.fontSize = "20px";
   }
 };
 
@@ -281,7 +286,9 @@ queriedElements.filterLogos.addEventListener("click", (event) => {
   });
 
   if (element) {
-    filters[element.id] = !filters[element.id];
+    filters[mapFilterIdToValue[element.id]] = !filters[
+      mapFilterIdToValue[element.id]
+    ];
     changeLogoStyle(element);
   }
 
@@ -290,6 +297,10 @@ queriedElements.filterLogos.addEventListener("click", (event) => {
 
 //This code runs whenever the page is loaded.
 //It copies the server database to local database
+
+const setNewToDoId = () => {
+  toDoId = findMaxId() + 1;
+};
 
 const copyServerDatabaseToLocalDatabase = () => {
   getServerDatabase()
@@ -306,6 +317,8 @@ const copyServerDatabaseToLocalDatabase = () => {
       });
 
       updatePage(getDatabase());
+
+      setNewToDoId();
     })
     .catch((err) => {
       showSnackbar(err);

@@ -30,3 +30,12 @@ export const dataConstants = {
   URGENCYICON: "urgencyIcon",
   CATEGORYICON: "categoryIcon"
 };
+
+export const mapFilterIdToValue = {
+  low: "low",
+  medium: "medium",
+  high: "high",
+  personal: "personal",
+  academic: "academic",
+  social: "social"
+};
