@@ -1,6 +1,6 @@
 import { dataConstants } from "/src/constants.js";
 
-const init = () => {
+const initializeTodoElement = () => {
   const editIcon = {
     type: "i",
     classes: ["fa", "fa-edit"],
@@ -37,9 +37,9 @@ const init = () => {
     children: [editButton, deleteButton]
   };
 
-  const toDoText = {
+  const todoText = {
     type: "div",
-    classes: ["toDoText"],
+    classes: ["todoText"],
     children: [],
     properties: {
       "data-type": dataConstants.TEXT
@@ -104,18 +104,18 @@ const init = () => {
     }
   };
 
-  const toDoElement = {
+  const todoElement = {
     type: "div",
-    classes: ["toDo"],
-    children: [buttons, toDoText, time, symbols, complete, select]
+    classes: ["todo"],
+    children: [buttons, todoText, time, symbols, complete, select]
   };
 
-  return toDoElement;
+  return todoElement;
 };
 
-const toDoElement = init();
+const todoElement = initializeTodoElement();
 
-export const createToDoElement = (element = toDoElement) => {
+export const createTodoElement = (element = todoElement) => {
   const elementType = element.type;
   const elementClasses = element.classes;
 
@@ -128,7 +128,7 @@ export const createToDoElement = (element = toDoElement) => {
   }
 
   element.children.forEach((childElement) => {
-    newElement.appendChild(createToDoElement(childElement));
+    newElement.appendChild(createTodoElement(childElement));
   });
 
   return newElement;

@@ -88,7 +88,7 @@ body {
   margin-bottom: 8px;
 }
 
-.createToDo {
+.createTodo {
   width: 100%;
   height: 45%;
   display: flex;
@@ -204,7 +204,7 @@ body {
   margin-bottom: 16px;
 }
 
-.addToDo {
+.addTodo {
   border: 1px solid black;
   border-radius: 16px;
   padding: 8px;
@@ -253,7 +253,7 @@ body {
   padding: 8px;
 }
 
-.toDoList {
+.todoList {
   width: 100%;
   height: 100%;
   display: flex;
@@ -263,7 +263,7 @@ body {
   justify-content: space-evenly;
 }
 
-.toDo {
+.todo {
   overflow: scroll;
   display: flex;
   flex-direction: column;
@@ -308,12 +308,12 @@ body {
   box-shadow: 0px 0px 16px 0px white;
 }
 
-.toDo:hover .edit,
-.toDo:hover .delete {
+.todo:hover .edit,
+.todo:hover .delete {
   visibility: visible;
 }
 
-.toDoText {
+.todoText {
   text-align: center;
   font-size: 30px;
   margin-bottom: 15px;

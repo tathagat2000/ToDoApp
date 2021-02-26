@@ -1,9 +1,9 @@
-import { queriedElements } from "./constants";
+import { queriedElements } from "./constants.js";
 
 export const updateAnalytics = (database) => {
   const denominator = database.length;
-  const numerator = database.filter((toDo) => {
-    return toDo.isCompleted;
+  const numerator = database.filter((todo) => {
+    return todo.isCompleted;
   }).length;
 
   queriedElements.analyticsRatio.innerHTML = numerator + " / " + denominator;

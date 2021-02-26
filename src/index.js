@@ -1,13 +1,13 @@
 import "/src/updateHeaderDate.js";
 import {
-  createToDoInServerDatabase,
-  deleteToDoInServerDatabase,
-  bulkDeleteToDoInServerDatabase,
-  bulkUpdateToDoInServerDatabase,
-  updateToDoInServerDatabase,
+  createTodoInServerDatabase,
+  deleteTodoInServerDatabase,
+  bulkDeleteTodoInServerDatabase,
+  bulkUpdateTodoInServerDatabase,
+  updateTodoInServerDatabase,
   getServerDatabase
 } from "/src/server.js";
-import { createToDoElement } from "/src/toDoElement.js";
+import { createTodoElement } from "/src/todoElement.js";
 import { updatePage } from "/src/updatePage.js";
 import { filters } from "/src/filter.js";
 import {
@@ -15,7 +15,7 @@ import {
   deleteFromDatabase,
   resetSelection,
   getDatabase,
-  getCurrentToDoData,
+  getCurrentTodoData,
   selectedList,
   findMaxId
 } from "/src/database.js";
@@ -23,14 +23,14 @@ import {
 import { showModal } from "/src/modal.js";
 import { showSnackbar } from "/src/snackbar.js";
 import { addToHistory } from "/src/history.js";
-import { updateToDatabase } from "./database";
+import { updateToDatabase } from "./database.js";
 import {
   queriedElements,
   dataConstants,
   mapFilterIdToValue
-} from "./constants";
+} from "./constants.js";
 
-let toDoId = 0;
+let todoId = 0;
 
 const getTime = () => {
   const date = new Date().toLocaleDateString();
@@ -40,32 +40,32 @@ const getTime = () => {
 };
 
 const resetValues = () => {
-  queriedElements.toDoInput.value = "";
+  queriedElements.todoInput.value = "";
   queriedElements.urgency.selectedIndex = 0;
   queriedElements.category.selectedIndex = 0;
 };
 
-const getToDoId = (path) => {
+const getTodoId = (path) => {
   for (const element of path) {
-    if (element.classList?.contains("toDo")) {
+    if (element.classList?.contains("todo")) {
       return Number(element.id);
     }
   }
 };
 
-const getToDo = (id, database) => database.find((toDo) => toDo.id === id);
+const getTodo = (id, database) => database.find((todo) => todo.id === id);
 
 const completeButtonClicked = (id) => {
-  const toDo = getToDo(id, getDatabase());
-  const { element, ...serverCopy } = toDo;
-  const localCopy = { ...toDo };
+  const todo = getTodo(id, getDatabase());
+  const { element, ...serverCopy } = todo;
+  const localCopy = { ...todo };
   serverCopy.isCompleted = !serverCopy.isCompleted;
   localCopy.isCompleted = !localCopy.isCompleted;
-  updateToDoInServerDatabase(id, serverCopy)
+  updateTodoInServerDatabase(id, serverCopy)
     .then(() => {
       const event = createEvent("update", id);
       updateToDatabase(localCopy);
-      event.toDoObjectAfter = { ...getToDo(id, getDatabase()) };
+      event.todoObjectAfter = { ...getTodo(id, getDatabase()) };
       updatePage(getDatabase());
       addToHistory(event);
     })
@@ -85,21 +85,21 @@ const selectButtonClicked = (id) => {
 };
 
 const editButtonClicked = (id) => {
-  const textValue = getCurrentToDoData(id, "text");
-  const urgencyValue = getCurrentToDoData(id, "urgency");
-  const categoryValue = getCurrentToDoData(id, "category");
+  const textValue = getCurrentTodoData(id, "text");
+  const urgencyValue = getCurrentTodoData(id, "urgency");
+  const categoryValue = getCurrentTodoData(id, "category");
   showModal(id, textValue, urgencyValue, categoryValue);
 };
 
 const createEvent = (type, id) => {
   return {
     operationType: type,
-    toDoObjectBefore: { ...getToDo(id, getDatabase()) }
+    todoObjectBefore: { ...getTodo(id, getDatabase()) }
   };
 };
 
 const deleteButtonClicked = (id) => {
-  deleteToDoInServerDatabase(id)
+  deleteTodoInServerDatabase(id)
     .then(() => {
       const event = createEvent("delete", id);
       addToHistory(event);
@@ -112,7 +112,7 @@ const deleteButtonClicked = (id) => {
 };
 
 const checkPathIfAnyButtonsClicked = (path) => {
-  const id = getToDoId(path);
+  const id = getTodoId(path);
   const allButtons = [
     dataConstants.COMPLETEBUTTON,
     dataConstants.SELECTBUTTON,
@@ -145,36 +145,36 @@ const checkPathIfAnyButtonsClicked = (path) => {
   }
 };
 
-const addEventListenersToToDo = (element) => {
+const addEventListenersToTodo = (element) => {
   element.addEventListener("click", (event) => {
     checkPathIfAnyButtonsClicked(event.path);
   });
 };
 
-const createToDoObject = (newToDoElement) => {
+const createTodoObject = (newTodoElement) => {
   return {
-    id: toDoId++,
-    text: queriedElements.toDoInput.value,
+    id: todoId++,
+    text: queriedElements.todoInput.value,
     urgency: queriedElements.urgency.value,
     category: queriedElements.category.value,
     isCompleted: false,
     time: getTime(),
-    element: newToDoElement
+    element: newTodoElement
   };
 };
 
-const addToDo = () => {
-  const newToDoElement = createToDoElement();
-  const toDoObject = createToDoObject(newToDoElement);
-  const { element, ...serverCopy } = toDoObject;
+const addTodo = () => {
+  const newTodoElement = createTodoElement();
+  const todoObject = createTodoObject(newTodoElement);
+  const { element, ...serverCopy } = todoObject;
 
-  createToDoInServerDatabase(serverCopy)
+  createTodoInServerDatabase(serverCopy)
     .then(() => {
-      addToDataBase(toDoObject);
+      addToDataBase(todoObject);
       updatePage(getDatabase());
       resetValues();
-      addEventListenersToToDo(newToDoElement);
-      const event = createEvent("create", toDoObject.id);
+      addEventListenersToTodo(newTodoElement);
+      const event = createEvent("create", todoObject.id);
       addToHistory(event);
     })
     .catch((err) => {
@@ -183,25 +183,25 @@ const addToDo = () => {
     });
 };
 
-queriedElements.createToDoBox.addEventListener("keypress", (event) => {
+queriedElements.createTodoBox.addEventListener("keypress", (event) => {
   const key = event.keyCode || event.which || 0;
-  if (key === 13 && queriedElements.toDoInput.value) {
-    addToDo();
+  if (key === 13 && queriedElements.todoInput.value) {
+    addTodo();
   }
 });
 
 const deleteInBulk = () => {
-  const listOfToDoIdsToBeDeleted = selectedList;
+  const listOfTodoIdsToBeDeleted = selectedList;
   const event = {
     operationType: "bulkDelete"
   };
-  const listOfToDoObjects = listOfToDoIdsToBeDeleted.map((id) => {
-    return { ...getToDo(id, getDatabase()) };
+  const listOfTodoObjects = listOfTodoIdsToBeDeleted.map((id) => {
+    return { ...getTodo(id, getDatabase()) };
   });
-  event.toDoObjectList = listOfToDoObjects;
-  bulkDeleteToDoInServerDatabase(listOfToDoIdsToBeDeleted)
+  event.todoObjectList = listOfTodoObjects;
+  bulkDeleteTodoInServerDatabase(listOfTodoIdsToBeDeleted)
     .then(() => {
-      listOfToDoIdsToBeDeleted.forEach((id) => {
+      listOfTodoIdsToBeDeleted.forEach((id) => {
         deleteFromDatabase(id);
       });
       resetSelection();
@@ -217,17 +217,17 @@ queriedElements.deleteSelection.addEventListener("click", (event) => {
   deleteInBulk();
 });
 
-const createBulkUpdateEvent = (listOfToDosToBeChanged, value) => {
+const createBulkUpdateEvent = (listOfTodosToBeChanged, value) => {
   const event = {
     operationType: "bulkUpdate"
   };
 
-  event.toDoObjectListBefore = listOfToDosToBeChanged.map((toDo) => {
-    return { ...toDo };
+  event.todoObjectListBefore = listOfTodosToBeChanged.map((todo) => {
+    return { ...todo };
   });
 
-  event.toDoObjectListAfter = listOfToDosToBeChanged.map((toDo) => {
-    const copy = { ...toDo };
+  event.todoObjectListAfter = listOfTodosToBeChanged.map((todo) => {
+    const copy = { ...todo };
     copy.isCompleted = value;
     return copy;
   });
@@ -236,22 +236,22 @@ const createBulkUpdateEvent = (listOfToDosToBeChanged, value) => {
 };
 
 const markSelectionInBulk = (value) => {
-  const listOfToDosToBeChanged = selectedList.map((id) =>
-    getToDo(id, getDatabase())
+  const listOfTodosToBeChanged = selectedList.map((id) =>
+    getTodo(id, getDatabase())
   );
 
-  const event = createBulkUpdateEvent(listOfToDosToBeChanged, value);
+  const event = createBulkUpdateEvent(listOfTodosToBeChanged, value);
 
-  const serverCopyOfListOfToDos = listOfToDosToBeChanged.map((toDo) => {
-    const { element, ...serverCopy } = toDo;
+  const serverCopyOfListOfTodos = listOfTodosToBeChanged.map((todo) => {
+    const { element, ...serverCopy } = todo;
     serverCopy.isCompleted = value;
     return serverCopy;
   });
 
-  bulkUpdateToDoInServerDatabase(serverCopyOfListOfToDos)
+  bulkUpdateTodoInServerDatabase(serverCopyOfListOfTodos)
     .then(() => {
-      listOfToDosToBeChanged.forEach((toDo) => {
-        const localCopy = { ...toDo };
+      listOfTodosToBeChanged.forEach((todo) => {
+        const localCopy = { ...todo };
         localCopy.isCompleted = value;
         updateToDatabase(localCopy);
       });
@@ -298,27 +298,27 @@ queriedElements.filterLogos.addEventListener("click", (event) => {
 //This code runs whenever the page is loaded.
 //It copies the server database to local database
 
-const setNewToDoId = () => {
-  toDoId = findMaxId() + 1;
+const setNewTodoId = () => {
+  todoId = findMaxId() + 1;
 };
 
 const copyServerDatabaseToLocalDatabase = () => {
   getServerDatabase()
     .then((serverDatabase) => {
-      const localDatabase = serverDatabase.map((toDo) => {
-        const copy = { ...toDo };
-        copy.element = createToDoElement();
-        addEventListenersToToDo(copy.element);
+      const localDatabase = serverDatabase.map((todo) => {
+        const copy = { ...todo };
+        copy.element = createTodoElement();
+        addEventListenersToTodo(copy.element);
         return copy;
       });
 
-      localDatabase.forEach((toDo) => {
-        addToDataBase(toDo);
+      localDatabase.forEach((todo) => {
+        addToDataBase(todo);
       });
 
       updatePage(getDatabase());
 
-      setNewToDoId();
+      setNewTodoId();
     })
     .catch((err) => {
       showSnackbar(err);

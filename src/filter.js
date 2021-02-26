@@ -25,10 +25,10 @@ export const filterDatabase = (database) => {
     return database;
   }
 
-  return database.filter((toDo) => {
+  return database.filter((todo) => {
     return (
-      filters[mapValueToFilter[toDo.urgency]] ||
-      filters[mapValueToFilter[toDo.category]]
+      filters[mapValueToFilter[todo.urgency]] ||
+      filters[mapValueToFilter[todo.category]]
     );
   });
 };

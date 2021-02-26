@@ -1,16 +1,16 @@
 import { updateAnalytics } from "/src/analytics.js";
-import { iconClasses } from "/src/toDoElement.js";
+import { iconClasses } from "/src/todoElement.js";
 import { filterDatabase } from "/src/filter.js";
 import { selectedList } from "/src/database.js";
 import { queriedElements, dataConstants } from "/src/constants.js";
 
-const setToDoText = (element, textValue) => {
+const setTodoText = (element, textValue) => {
   element.querySelector(
     `[data-type=${dataConstants.TEXT}]`
   ).innerHTML = textValue;
 };
 
-const setToDoUrgency = (element, urgencyValue) => {
+const setTodoUrgency = (element, urgencyValue) => {
   element.querySelector(`[data-type=${dataConstants.URGENCYICON}]`).className =
     "";
   element
@@ -18,7 +18,7 @@ const setToDoUrgency = (element, urgencyValue) => {
     .classList.add(...iconClasses[urgencyValue]);
 };
 
-const setToDoCategory = (element, categoryValue) => {
+const setTodoCategory = (element, categoryValue) => {
   element.querySelector(`[data-type=${dataConstants.CATEGORYICON}]`).className =
     "";
 
@@ -27,7 +27,7 @@ const setToDoCategory = (element, categoryValue) => {
     .classList.add(...iconClasses[categoryValue]);
 };
 
-const setToDoTime = (element, time) => {
+const setTodoTime = (element, time) => {
   element.querySelector(`[data-type=${dataConstants.TIME}]`).innerHTML = time;
 };
 
@@ -59,24 +59,24 @@ const setIsSelected = (element, selected) => {
   }
 };
 
-const setToDoId = (element, id) => {
+const setTodoId = (element, id) => {
   element.id = id;
 };
 
 export const updatePage = (database) => {
-  queriedElements.toDoList.innerHTML = "";
-  database.sort((toDo1, toDo2) => toDo1.id - toDo2.id);
+  queriedElements.todoList.innerHTML = "";
+  database.sort((todo1, todo2) => todo1.id - todo2.id);
   const filteredDatabase = filterDatabase(database);
-  filteredDatabase.forEach((toDo) => {
-    setToDoText(toDo.element, toDo.text);
-    setToDoUrgency(toDo.element, toDo.urgency);
-    setToDoCategory(toDo.element, toDo.category);
-    setToDoTime(toDo.element, toDo.time);
-    setIsSelected(toDo.element, selectedList.includes(toDo.id));
-    setIsCompleted(toDo.element, toDo.isCompleted);
-    setToDoId(toDo.element, toDo.id);
+  filteredDatabase.forEach((todo) => {
+    setTodoText(todo.element, todo.text);
+    setTodoUrgency(todo.element, todo.urgency);
+    setTodoCategory(todo.element, todo.category);
+    setTodoTime(todo.element, todo.time);
+    setIsSelected(todo.element, selectedList.includes(todo.id));
+    setIsCompleted(todo.element, todo.isCompleted);
+    setTodoId(todo.element, todo.id);
 
-    queriedElements.toDoList.appendChild(toDo.element);
+    queriedElements.todoList.appendChild(todo.element);
   });
 
   updateAnalytics(filteredDatabase);

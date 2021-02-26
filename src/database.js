@@ -6,26 +6,26 @@ export const selectedList = [];
 export const findMaxId = () => {
   let max = -1;
 
-  database.forEach((toDo) => {
-    max = Math.max(max, toDo.id);
+  database.forEach((todo) => {
+    max = Math.max(max, todo.id);
   });
 
   return max;
 };
 
-export const addToDataBase = (toDo) => {
-  database.push(toDo);
+export const addToDataBase = (todo) => {
+  database.push(todo);
 };
 
 export const deleteFromDatabase = (id) => {
-  const idx = database.findIndex((toDo) => {
-    return toDo.id === id;
+  const idx = database.findIndex((todo) => {
+    return todo.id === id;
   });
 
   database.splice(idx, 1);
 };
 
-const getToDo = (id, database) => database.find((toDo) => toDo.id === id);
+const getTodo = (id, database) => database.find((todo) => todo.id === id);
 
 export const resetSelection = () => {
   selectedList.splice(0);
@@ -35,16 +35,16 @@ export const getDatabase = () => {
   return database;
 };
 
-export const getCurrentToDoData = (id, type) => {
-  const toDo = getToDo(id, getDatabase());
-  return toDo[type];
+export const getCurrentTodoData = (id, type) => {
+  const todo = getTodo(id, getDatabase());
+  return todo[type];
 };
 
-export const updateToDatabase = (toDoObject) => {
-  const id = toDoObject.id;
-  const idx = database.findIndex((toDo) => {
-    return toDo.id === id;
+export const updateToDatabase = (todoObject) => {
+  const id = todoObject.id;
+  const idx = database.findIndex((todo) => {
+    return todo.id === id;
   });
 
-  database[idx] = toDoObject;
+  database[idx] = todoObject;
 };

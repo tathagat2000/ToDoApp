@@ -6,12 +6,12 @@ import {
 } from "/src/database.js";
 
 import {
-  createToDoInServerDatabase,
-  deleteToDoInServerDatabase,
-  updateToDoInServerDatabase,
-  bulkUpdateToDoInServerDatabase,
-  bulkDeleteToDoInServerDatabase,
-  bulkCreateToDoInServerDatabase
+  createTodoInServerDatabase,
+  deleteTodoInServerDatabase,
+  updateTodoInServerDatabase,
+  bulkUpdateTodoInServerDatabase,
+  bulkDeleteTodoInServerDatabase,
+  bulkCreateTodoInServerDatabase
 } from "/src/server.js";
 
 import { updatePage } from "/src/updatePage.js";
@@ -27,8 +27,8 @@ export const addToHistory = (event) => {
 };
 
 const deleteOperation = (event, type) => {
-  const id = event.toDoObjectBefore.id;
-  deleteToDoInServerDatabase(id)
+  const id = event.todoObjectBefore.id;
+  deleteTodoInServerDatabase(id)
     .then(() => {
       deleteFromDatabase(id);
       updatePage(getDatabase());
@@ -45,12 +45,12 @@ const deleteOperation = (event, type) => {
 };
 
 const createOperation = (event, type) => {
-  const toDoObject = event.toDoObjectBefore;
-  const { element, ...serverCopy } = toDoObject;
+  const todoObject = event.todoObjectBefore;
+  const { element, ...serverCopy } = todoObject;
 
-  createToDoInServerDatabase(serverCopy)
+  createTodoInServerDatabase(serverCopy)
     .then(() => {
-      addToDataBase(toDoObject);
+      addToDataBase(todoObject);
       updatePage(getDatabase());
 
       if (type === "undo") {
@@ -64,12 +64,12 @@ const createOperation = (event, type) => {
     });
 };
 
-const updateOperation = (toDoObject, type) => {
-  const { element, ...serverCopy } = toDoObject;
-  const id = toDoObject.id;
-  updateToDoInServerDatabase(id, serverCopy)
+const updateOperation = (todoObject, type) => {
+  const { element, ...serverCopy } = todoObject;
+  const id = todoObject.id;
+  updateTodoInServerDatabase(id, serverCopy)
     .then(() => {
-      updateToDatabase(toDoObject);
+      updateToDatabase(todoObject);
       updatePage(getDatabase());
 
       if (type === "undo") {
@@ -83,16 +83,16 @@ const updateOperation = (toDoObject, type) => {
     });
 };
 
-const bulkUpdateOperation = (toDoObjectList, type) => {
-  const serverCopy = toDoObjectList.map((toDo) => {
-    const { element, ...copy } = toDo;
+const bulkUpdateOperation = (todoObjectList, type) => {
+  const serverCopy = todoObjectList.map((todo) => {
+    const { element, ...copy } = todo;
     return copy;
   });
 
-  bulkUpdateToDoInServerDatabase(serverCopy)
+  bulkUpdateTodoInServerDatabase(serverCopy)
     .then(() => {
-      toDoObjectList.forEach((toDo) => {
-        updateToDatabase(toDo);
+      todoObjectList.forEach((todo) => {
+        updateToDatabase(todo);
       });
       updatePage(getDatabase());
       if (type === "undo") {
@@ -106,10 +106,10 @@ const bulkUpdateOperation = (toDoObjectList, type) => {
     });
 };
 
-const bulkDeleteOperation = (toDoObjectList, type) => {
-  const listOfIds = toDoObjectList.map((toDo) => toDo.id);
+const bulkDeleteOperation = (todoObjectList, type) => {
+  const listOfIds = todoObjectList.map((todo) => todo.id);
 
-  bulkDeleteToDoInServerDatabase(listOfIds)
+  bulkDeleteTodoInServerDatabase(listOfIds)
     .then(() => {
       listOfIds.forEach((id) => {
         deleteFromDatabase(id);
@@ -126,20 +126,20 @@ const bulkDeleteOperation = (toDoObjectList, type) => {
     });
 };
 
-const bulkCreateOperation = (toDoObjectList, type) => {
-  const serverCopy = toDoObjectList.map((toDo) => {
-    const { element, ...copy } = toDo;
+const bulkCreateOperation = (todoObjectList, type) => {
+  const serverCopy = todoObjectList.map((todo) => {
+    const { element, ...copy } = todo;
     return copy;
   });
 
-  const localCopy = toDoObjectList.map((toDo) => {
-    return { ...toDo };
+  const localCopy = todoObjectList.map((todo) => {
+    return { ...todo };
   });
 
-  bulkCreateToDoInServerDatabase(serverCopy)
+  bulkCreateTodoInServerDatabase(serverCopy)
     .then(() => {
-      localCopy.forEach((toDo) => {
-        addToDataBase(toDo);
+      localCopy.forEach((todo) => {
+        addToDataBase(todo);
       });
       updatePage(getDatabase());
       if (type === "undo") {
@@ -170,15 +170,15 @@ const undo = () => {
       break;
 
     case "update":
-      updateOperation(event.toDoObjectBefore, "undo");
+      updateOperation(event.todoObjectBefore, "undo");
       break;
 
     case "bulkUpdate":
-      bulkUpdateOperation(event.toDoObjectListBefore, "undo");
+      bulkUpdateOperation(event.todoObjectListBefore, "undo");
       break;
 
     case "bulkDelete":
-      bulkCreateOperation(event.toDoObjectList, "undo");
+      bulkCreateOperation(event.todoObjectList, "undo");
       break;
 
     default:
@@ -203,15 +203,15 @@ const redo = () => {
       break;
 
     case "update":
-      updateOperation(event.toDoObjectAfter, "redo");
+      updateOperation(event.todoObjectAfter, "redo");
       break;
 
     case "bulkUpdate":
-      bulkUpdateOperation(event.toDoObjectListAfter, "redo");
+      bulkUpdateOperation(event.todoObjectListAfter, "redo");
       break;
 
     case "bulkDelete":
-      bulkDeleteOperation(event.toDoObjectList, "redo");
+      bulkDeleteOperation(event.todoObjectList, "redo");
       break;
 
     default:

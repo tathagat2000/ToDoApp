@@ -23,46 +23,46 @@ export const getServerDatabase = () => {
 };
 
 const saveDatabaseInLocalStorage = () => {
-  localStorage.setItem("toDos", JSON.stringify(serverDatabase));
+  localStorage.setItem("todos", JSON.stringify(serverDatabase));
 };
 
 const loadDatabaseFromLocalStorage = () => {
-  serverDatabase = JSON.parse(localStorage.getItem("toDos")) || [];
+  serverDatabase = JSON.parse(localStorage.getItem("todos")) || [];
 };
 
-export const createToDoInServerDatabase = (toDo) => {
+export const createTodoInServerDatabase = (todo) => {
   return new Promise((resolve, reject) => {
     if (isServerWorking()) {
-      serverDatabase.push(toDo);
+      serverDatabase.push(todo);
       saveDatabaseInLocalStorage();
       resolve("done");
     } else {
-      reject("Could Not Add ToDo");
+      reject("Could Not Add Todo");
     }
   });
 };
 
-export const bulkCreateToDoInServerDatabase = (listOfToDos) => {
+export const bulkCreateTodoInServerDatabase = (listOfTodos) => {
   return new Promise((resolve, reject) => {
     if (isServerWorking()) {
-      listOfToDos.forEach((toDo) => {
-        serverDatabase.push(toDo);
+      listOfTodos.forEach((todo) => {
+        serverDatabase.push(todo);
       });
       saveDatabaseInLocalStorage();
       resolve("done");
     } else {
-      reject("Could Not Add Bulk ToDos");
+      reject("Could Not Add Bulk Todos");
     }
   });
 };
 
-export const updateToDoInServerDatabase = (id, toDo) => {
+export const updateTodoInServerDatabase = (id, todo) => {
   return new Promise((resolve, reject) => {
     if (isServerWorking()) {
-      const idx = serverDatabase.findIndex((toDo) => {
-        return toDo.id === id;
+      const idx = serverDatabase.findIndex((todo) => {
+        return todo.id === id;
       });
-      serverDatabase[idx] = toDo;
+      serverDatabase[idx] = todo;
       saveDatabaseInLocalStorage();
       resolve("done");
     } else {
@@ -71,27 +71,27 @@ export const updateToDoInServerDatabase = (id, toDo) => {
   });
 };
 
-export const deleteToDoInServerDatabase = (id) => {
+export const deleteTodoInServerDatabase = (id) => {
   return new Promise((resolve, reject) => {
     if (isServerWorking()) {
-      const idx = serverDatabase.findIndex((toDo) => {
-        return toDo.id === id;
+      const idx = serverDatabase.findIndex((todo) => {
+        return todo.id === id;
       });
       serverDatabase.splice(idx, 1);
       saveDatabaseInLocalStorage();
       resolve("done");
     } else {
-      reject("Could Not Delete ToDo");
+      reject("Could Not Delete Todo");
     }
   });
 };
 
-export const bulkDeleteToDoInServerDatabase = (listOfIds) => {
+export const bulkDeleteTodoInServerDatabase = (listOfIds) => {
   return new Promise((resolve, reject) => {
     if (isServerWorking()) {
       listOfIds.forEach((id) => {
-        const idx = serverDatabase.findIndex((toDo) => {
-          return toDo.id === id;
+        const idx = serverDatabase.findIndex((todo) => {
+          return todo.id === id;
         });
 
         serverDatabase.splice(idx, 1);
@@ -99,25 +99,25 @@ export const bulkDeleteToDoInServerDatabase = (listOfIds) => {
       saveDatabaseInLocalStorage();
       resolve("done");
     } else {
-      reject("Could Not Delete Selected ToDos");
+      reject("Could Not Delete Selected Todos");
     }
   });
 };
 
-export const bulkUpdateToDoInServerDatabase = (listOfToDos) => {
+export const bulkUpdateTodoInServerDatabase = (listOfTodos) => {
   return new Promise((resolve, reject) => {
     if (isServerWorking()) {
-      listOfToDos.forEach((toDo) => {
-        const id = toDo.id;
-        const idx = serverDatabase.findIndex((toDo) => {
-          return toDo.id === id;
+      listOfTodos.forEach((todo) => {
+        const id = todo.id;
+        const idx = serverDatabase.findIndex((todo) => {
+          return todo.id === id;
         });
-        serverDatabase[idx] = toDo;
+        serverDatabase[idx] = todo;
       });
       saveDatabaseInLocalStorage();
       resolve("done");
     } else {
-      reject("Could Not Update Selected ToDos");
+      reject("Could Not Update Selected Todos");
     }
   });
 };

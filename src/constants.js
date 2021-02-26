@@ -1,8 +1,8 @@
 export const queriedElements = {
   analyticsPercent: document.querySelector("#percent"),
   analyticsRatio: document.querySelector("#ratio"),
-  createToDoBox: document.querySelector("#createToDo"),
-  toDoInput: document.querySelector("#addToDo"),
+  createTodoBox: document.querySelector("#createTodo"),
+  todoInput: document.querySelector("#addTodo"),
   urgency: document.querySelector("#urgency"),
   category: document.querySelector("#category"),
   deleteSelection: document.querySelector("#deleteSelection"),
@@ -12,12 +12,12 @@ export const queriedElements = {
   modal: document.querySelector("#myModal"),
   saveModal: document.querySelector("#save"),
   cancelModal: document.querySelector("#cancel"),
-  updatedText: document.querySelector("#updatedAddToDo"),
+  updatedText: document.querySelector("#updatedAddTodo"),
   updatedUrgency: document.querySelector("#updatedUrgency"),
   updatedCategory: document.querySelector("#updatedCategory"),
   snackbar: document.querySelector("#snackbar"),
   headerDate: document.querySelector("#date"),
-  toDoList: document.querySelector("#toDoList")
+  todoList: document.querySelector("#todoList")
 };
 
 export const dataConstants = {
