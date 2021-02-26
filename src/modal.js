@@ -1,9 +1,9 @@
 import { getDatabase, updateToDatabase } from "./database.js";
 import { updatePage } from "./updatePage.js";
-import { updateTodoInServerDatabase } from "/src/server.js";
-import { showSnackbar } from "/src/snackbar.js";
-import { addToHistory } from "/src/history.js";
-import { queriedElements } from "/src/constants.js";
+import { updateTodoInServerDatabase } from "./server.js";
+import { showSnackbar } from "./snackbar.js";
+import { addToHistory } from "./history.js";
+import { queriedElements } from "./constants.js";
 
 let currentTodoIdOpened;
 

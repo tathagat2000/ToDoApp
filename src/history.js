@@ -3,7 +3,7 @@ import {
   deleteFromDatabase,
   getDatabase,
   updateToDatabase
-} from "/src/database.js";
+} from "./database.js";
 
 import {
   createTodoInServerDatabase,
@@ -12,10 +12,10 @@ import {
   bulkUpdateTodoInServerDatabase,
   bulkDeleteTodoInServerDatabase,
   bulkCreateTodoInServerDatabase
-} from "/src/server.js";
+} from "./server.js";
 
-import { updatePage } from "/src/updatePage.js";
-import { showSnackbar } from "/src/snackbar.js";
+import { updatePage } from "./updatePage.js";
+import { showSnackbar } from "./snackbar.js";
 
 let historyIndex = -1;
 const history = [];

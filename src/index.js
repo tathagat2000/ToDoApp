@@ -1,4 +1,4 @@
-import "/src/updateHeaderDate.js";
+import "./updateHeaderDate.js";
 import {
   createTodoInServerDatabase,
   deleteTodoInServerDatabase,
@@ -6,10 +6,10 @@ import {
   bulkUpdateTodoInServerDatabase,
   updateTodoInServerDatabase,
   getServerDatabase
-} from "/src/server.js";
-import { createTodoElement } from "/src/todoElement.js";
-import { updatePage } from "/src/updatePage.js";
-import { filters } from "/src/filter.js";
+} from "./server.js";
+import { createTodoElement } from "./todoElement.js";
+import { updatePage } from "./updatePage.js";
+import { filters } from "./filter.js";
 import {
   addToDataBase,
   deleteFromDatabase,
@@ -18,11 +18,11 @@ import {
   getCurrentTodoData,
   selectedList,
   findMaxId
-} from "/src/database.js";
+} from "./database.js";
 
-import { showModal } from "/src/modal.js";
-import { showSnackbar } from "/src/snackbar.js";
-import { addToHistory } from "/src/history.js";
+import { showModal } from "./modal.js";
+import { showSnackbar } from "./snackbar.js";
+import { addToHistory } from "./history.js";
 import { updateToDatabase } from "./database.js";
 import {
   queriedElements,

@@ -1,4 +1,4 @@
-import { queriedElements } from "/src/constants.js";
+import { queriedElements } from "./constants.js";
 
 export const showSnackbar = (message) => {
   const snackbar = queriedElements.snackbar;

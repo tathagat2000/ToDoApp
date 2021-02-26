@@ -1,4 +1,4 @@
-import { queriedElements } from "/src/constants.js";
+import { queriedElements } from "./constants.js";
 
 const updatePageDate = () => {
   const currentDate = new Date().toDateString();

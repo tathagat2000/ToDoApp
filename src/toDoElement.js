@@ -1,4 +1,4 @@
-import { dataConstants } from "/src/constants.js";
+import { dataConstants } from "./constants.js";
 
 const initializeTodoElement = () => {
   const editIcon = {

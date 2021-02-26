@@ -1,8 +1,8 @@
-import { updateAnalytics } from "/src/analytics.js";
-import { iconClasses } from "/src/todoElement.js";
-import { filterDatabase } from "/src/filter.js";
-import { selectedList } from "/src/database.js";
-import { queriedElements, dataConstants } from "/src/constants.js";
+import { updateAnalytics } from "./analytics.js";
+import { iconClasses } from "./todoElement.js";
+import { filterDatabase } from "./filter.js";
+import { selectedList } from "./database.js";
+import { queriedElements, dataConstants } from "./constants.js";
 
 const setTodoText = (element, textValue) => {
   element.querySelector(
